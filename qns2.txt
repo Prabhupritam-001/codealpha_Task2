@@ -1,0 +1,45 @@
+# Predefined stock prices dictionary
+stock_prices = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOGL": 2800,
+    "AMZN": 3300,
+    "MSFT": 310
+}
+
+# Dictionary to hold user stock quantities
+portfolio = {}
+
+# Input from user
+print("Enter your stock holdings (type 'done' to finish):")
+while True:
+    stock = input("Stock symbol (e.g., AAPL): ").upper()
+    if stock == "DONE":
+        break
+    if stock in stock_prices:
+        try:
+            qty = int(input(f"Enter quantity of {stock}: "))
+            portfolio[stock] = portfolio.get(stock, 0) + qty
+        except ValueError:
+            print("Please enter a valid number.")
+    else:
+        print("Stock not found in price list.")
+
+# Calculate total investment
+total_value = 0
+print("\nYour Portfolio:")
+for stock, qty in portfolio.items():
+    value = stock_prices[stock] * qty
+    print(f"{stock}: {qty} shares × ${stock_prices[stock]} = ${value}")
+    total_value += value
+
+print(f"\nTotal Investment Value: ${total_value}")
+
+# Optional: Save to file
+save = input("Do you want to save the result to a file? (yes/no): ").lower()
+if save == "yes":
+    with open("portfolio.txt", "w") as f:
+        for stock, qty in portfolio.items():
+            f.write(f"{stock}: {qty} shares × ${stock_prices[stock]} = ${stock_prices[stock]*qty}\n")
+        f.write(f"\nTotal Investment Value: ${total_value}")
+    print("Data saved to 'portfolio.txt'")
